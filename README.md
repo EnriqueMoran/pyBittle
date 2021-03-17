@@ -1,1 +1,2 @@
 # pyBittle
+Dependencies: pyBluez, pyserial
