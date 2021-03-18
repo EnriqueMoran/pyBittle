@@ -1,5 +1,4 @@
-"""
-Connect to Bittle, control and manage its behaviour.
+"""Connect to Bittle, control and manage its behaviour.
 
 pyBittle is a module that allows connecting to Bittle through Bluetooth or
 WiFi, define Bittle's behaviour and send commands to control it.
@@ -14,5 +13,4 @@ __version__ = "v0.1"
 
 class Bittle():
     """
-
     """

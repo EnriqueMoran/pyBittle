@@ -1,9 +1,7 @@
-"""
-This module manages Bluetooth connection.
+"""This module manages Bluetooth connection.
 
-Classes:
-
-Functions:
+BluetoothManager allows finding Bittle's physical address, connecting to
+Bittle, sending and receiving messages from it.
 """
 
 import subprocess
@@ -35,6 +33,21 @@ class BluetoothManager():
         Socket timeout for receiving messages (seconds).
     socket : bluetooth.BluetoothSocket
         Socket for Bluetooth connection.
+
+    Methods
+    -------
+    initialize_name_address_port(get_first_bittle=True):
+        Finds and sets Bittle's device name and MAC address.
+    get_paired_devices(flush_cache=True, lookup_names=True):
+        Returns avaliable paired devices.
+    connect():
+        Connects to Bittle.
+    sendMsg(msg):
+        Sends a message to Bittle.
+    recvMsg(buffer_size=1024):
+        Returns received message from Bittle.
+    closeConnection():
+        Closes connection with Bittle.
     """
 
     def __init__(self, name="", port=1, discovery_timeout=8, recv_timeout=10):
@@ -139,54 +152,35 @@ class BluetoothManager():
                                           flush_cache=flush_cache,
                                           lookup_names=lookup_names)
 
-    def connect(self, connect_timeout=15, wait_time=10):
+    def connect(self):
         """Connects to Bittle.
 
         Connects to Bittle and wait until full response is given
         (response will contain "Finished! at the end").
-        Once its connected, set self.socket's timeout to self.timeout.
-        Returns True if connected succesfully, False otherwise.
+        Once its connected, set self.socket's timeout to self._recv_timeout.
 
-        connect_timeout : int
-            Socket timeout for connecting (seconds).
-        wait_time : int
-            Time to wait for receiving first data from Bittle (seconds)
+        Returns:
+            res (bool) : True if connected succesfully, False otherwise.
         """
-        if isinstance(connect_timeout, int) and connect_timeout > 0:
-            pass
-        else:
-            raise TypeError("Timeout type must be int, greater than 0.")
-
-        if isinstance(wait_time, int) and wait_time > 0:
-            pass
-        else:
-            raise TypeError("Time type must be int, greater than 0.")
-
         res = False
         try:
-            self.socket.settimeout(connect_timeout)
             self.socket.connect((self.address, self.port))
-            print("Test")
-            time.sleep(wait_time)  # Wait to start receiving data
+            self.socket.settimeout(self._recv_timeout)
             while True:
-                data = self.socket.recv(1024)
-                print(f"Data: {data}")
+                data = self.socket.recv(1024)  # TODO: adjust buffer size
                 if len(data) == 0:
                     break
                 elif b"Finished!" in data:
                     res = True
-                    self.socket.settimeout(self.timeout)
                     break
-        except bluetooth.btcommon.BluetoothError as err:
-            pass
-        except socket.error:
+        except:
             pass
         if not res:  # Reset socket
             self.socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         return res
 
     def sendMsg(self, msg):
-        """Send a message to Bittle.
+        """Sends a message to Bittle.
 
         Parameters:
             msg (str) : Message to send.
@@ -197,21 +191,26 @@ class BluetoothManager():
             raise TypeError("Message must be non empty str.")
 
     def recvMsg(self, buffer_size=1024):
-        """Receive a message from Bittle.
+        """Receives a message from Bittle.
 
         Parameters:
             buffer_size (int) : Buffer size.
+
+        Returns:
+            data (bytes) : Received data.
         """
+        data = b''
         if isinstance(buffer_size, int) and buffer_size > 0:
             try:
-                res = self.socket.recv(buffer_size)
+                data = self.socket.recv(buffer_size)
             except socket.error:
                 raise socket.error("Receiving message failed: connection\
                                     timed out.")
         else:
             raise TypeError("Buffer size must be int, greater than zero.")
+        return data
 
     def closeConnection(self):
-        """Close connection.
+        """Closes connection.
         """
         self.socket.close()
