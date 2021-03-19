@@ -13,8 +13,6 @@ import serial.tools.list_ports
 
 __author__ = "EnriqueMoran"
 
-__version__ = "v0.1"
-
 
 class BluetoothManager():
     """Main class to manage Bluetooth connection.
@@ -131,6 +129,11 @@ class BluetoothManager():
             name (str) : Found name, None if not found.
             address (str) : Found address, None if not found.
         """
+        if isinstance(get_first_bittle, bool):
+            pass
+        else:
+            raise TypeError("Value type must be bool.")
+
         search_name = self.name if not get_first_bittle and self.name else \
             "BittleSPP"
         paired_devices = self.get_paired_devices(self.discovery_timeout)

@@ -41,6 +41,7 @@ if __name__ == "__main__":
             decoded_msg = received.decode("utf-8")
             decoded_msg = decoded_msg.replace('\r\n', '')
             print(f"Received message: {decoded_msg}, expected: d")
+            time.sleep(5)
             print("Closing connection...")
             btManager.closeConnection()  # Close connection
             print("Connection closed")

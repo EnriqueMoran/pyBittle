@@ -10,8 +10,6 @@ import pyBittle
 
 __author__ = "EnriqueMoran"
 
-__version__ = "v0.1"
-
 
 if __name__ == "__main__":
     pass
