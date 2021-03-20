@@ -1,2 +1,2 @@
 # pyBittle
-Dependencies: pyBluez, pyserial
+Documentation: [pyBittle](https://enriquemoran95.gitbook.io/pybittle/)
