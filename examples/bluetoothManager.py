@@ -12,15 +12,15 @@ import time
 
 sys.path.append(os.path.join(sys.path[0], '..'))
 
-import pyBittle  # noqa: E402
+from pyBittle import bluetoothManager  # noqa: E402
 
 
 __author__ = "EnriqueMoran"
 
 
 if __name__ == "__main__":
-    btManager = pyBittle.BluetoothManager()  # Create bluetoothManager
-    print(f"Searching for Bittle...")
+    btManager = bluetoothManager.BluetoothManager()  # Create bluetoothManager
+    print(f"Searching for Bittle in paired devices...")
     name, addr = btManager.initialize_name_address_port()  # Get name and addr
     if name and addr:
         print(f"Bittle found, name: {name}, address: {addr}")

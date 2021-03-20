@@ -1,6 +1,6 @@
 """Connect to Bittle, control and manage its behaviour.
 
-pyBittle is a high level module that allows connecting to Bittle through
+bittleManager is a high level module that allows connecting to Bittle through
 Bluetooth or WiFi, define Bittle's behaviour and send/receive commands to
 control it.
 """
@@ -9,7 +9,7 @@ import uuid
 
 from enum import Enum
 
-from _bluetoothManager import *
+from .bluetoothManager import *
 
 __author__ = "EnriqueMoran"
 
@@ -80,7 +80,7 @@ COMMANDS = {  # Command : message to Bittle
 }
 
 
-class Bittle():
+class Bittle:
     """High level class that represents your Bittle.
 
     Attributes
@@ -140,8 +140,7 @@ class Bittle():
         name, addr = self.bluetoothManager.initialize_name_address_port(
                      get_first_bittle)
         if name and addr:  # Bittle found among avaliable paired devices
-            connected = self.bluetoothManager.connect()
-            res = True
+            res = self.bluetoothManager.connect()
         return res
 
     def sendCommandBluetooth(self, command):
@@ -181,8 +180,3 @@ class Bittle():
         """Closes Bluetooth connection.
         """
         self.bluetoothManager.closeConnection()
-
-
-
-
-

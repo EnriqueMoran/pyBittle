@@ -4,6 +4,7 @@ BluetoothManager allows finding Bittle's physical address, connecting to
 Bittle, sending and receiving messages from it.
 """
 
+import socket
 import subprocess
 import time
 
@@ -14,7 +15,7 @@ import serial.tools.list_ports
 __author__ = "EnriqueMoran"
 
 
-class BluetoothManager():
+class BluetoothManager:
     """Main class to manage Bluetooth connection.
 
     Attributes
@@ -58,6 +59,15 @@ class BluetoothManager():
 
     def __del__(self):
         self.socket.close()
+
+    def __repr__(self):
+        return f"BluetoothManager - name: {self.name}, address: " \
+               f"{self.address}, port: {self.port}, discovery_timeout: " \
+               f"{self.discovery_timeout}, recv_timeout: {self.recv_timeout}"
+
+    def __str__(self):
+        return f"BluetoothManager - name: {self.name}, address: " \
+               f"{self.address}, port: {self.port}"
 
     @property
     def name(self):
@@ -206,9 +216,8 @@ class BluetoothManager():
         if isinstance(buffer_size, int) and buffer_size > 0:
             try:
                 data = self.socket.recv(buffer_size)
-            except socket.error:
-                raise socket.error("Receiving message failed: connection\
-                                    timed out.")
+            except socket.error as err:
+                raise socket.error("{!s}".format(err)) from None
         else:
             raise TypeError("Buffer size must be int, greater than zero.")
         return data

@@ -12,21 +12,21 @@ import time
 
 sys.path.append(os.path.join(sys.path[0], '..'))
 
-import pyBittle  # noqa: E402
+from pyBittle import bittleManager  # noqa: E402
 
 
 __author__ = "EnriqueMoran"
 
 
-greet = pyBittle.Command.GREETING  # khi command
-rest = pyBittle.Command.REST  # d command
+greet = bittleManager.Command.GREETING  # khi command
+rest = bittleManager.Command.REST  # d command
 
 
 def testBluetooth(bittle):
     """Connect to Bittle through Bluetooth and send 'khi' and 'd' commands.
 
     Parameters:
-            bittle (pyBittle.Bittle) : Bittle instance.
+            bittle (bittleManager.Bittle) : Bittle instance.
     """
     print("Connecting to Bittle through Bluetooth...")
     isConnected = bittle.connectBluetooth()
@@ -51,7 +51,7 @@ def testBluetooth(bittle):
 
 if __name__ == "__main__":
     connection = 1  # 1 -> Bluetooth, 2 -> WiFi, 3 -> Serial
-    bittle = pyBittle.Bittle()
+    bittle = bittleManager.Bittle()
     print("Bittle instance created")
     if connection == 1:
         testBluetooth(bittle)
