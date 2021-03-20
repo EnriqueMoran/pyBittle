@@ -6,7 +6,6 @@ Bittle, sending and receiving messages from it.
 
 import socket
 import subprocess
-import time
 
 import bluetooth
 import serial.tools.list_ports
@@ -35,7 +34,7 @@ class BluetoothManager:
 
     Methods
     -------
-    initialize_name_address_port(get_first_bittle=True):
+    initialize_name_and_address(get_first_bittle=True):
         Finds and sets Bittle's device name and MAC address.
     get_paired_devices(flush_cache=True, lookup_names=True):
         Returns avaliable paired devices.
@@ -124,7 +123,7 @@ class BluetoothManager:
         else:
             raise TypeError("New timeout type must be int, greater than 0.")
 
-    def initialize_name_address_port(self, get_first_bittle=True):
+    def initialize_name_and_address(self, get_first_bittle=True):
         """Sets self._name and self._address values by searching
         among paired devices and returns its values.
 
@@ -146,7 +145,7 @@ class BluetoothManager:
 
         search_name = self.name if not get_first_bittle and self.name else \
             "BittleSPP"
-        paired_devices = self.get_paired_devices(self.discovery_timeout)
+        paired_devices = self.get_paired_devices()
 
         for address, name in list(paired_devices):
             if search_name in name:
@@ -156,14 +155,15 @@ class BluetoothManager:
         else:  # Bittle name not found, return (None, None, None)
             return None, None
 
-    def get_paired_devices(self, flush_cache=True, lookup_names=True):
-        """Returns dict {MAC address : device name} with paired devices.
+    def get_paired_devices(self):
+        """Returns A list of (MAC address, device name) tuples with paired
+        devices.
 
         Check bluetooth.discover_devices documentation for more info.
         """
         return bluetooth.discover_devices(duration=self.discovery_timeout,
-                                          flush_cache=flush_cache,
-                                          lookup_names=lookup_names)
+                                          flush_cache=True,
+                                          lookup_names=True)
 
     def connect(self):
         """Connects to Bittle.

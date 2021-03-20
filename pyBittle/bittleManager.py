@@ -137,7 +137,7 @@ class Bittle:
             res (bool) : True if connected, False otherwise.
         """
         res = False
-        name, addr = self.bluetoothManager.initialize_name_address_port(
+        name, addr = self.bluetoothManager.initialize_name_and_address(
                      get_first_bittle)
         if name and addr:  # Bittle found among avaliable paired devices
             res = self.bluetoothManager.connect()

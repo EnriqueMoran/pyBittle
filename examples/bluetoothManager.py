@@ -21,7 +21,7 @@ __author__ = "EnriqueMoran"
 if __name__ == "__main__":
     btManager = bluetoothManager.BluetoothManager()  # Create bluetoothManager
     print(f"Searching for Bittle in paired devices...")
-    name, addr = btManager.initialize_name_address_port()  # Get name and addr
+    name, addr = btManager.initialize_name_and_address()  # Get name and addr
     if name and addr:
         print(f"Bittle found, name: {name}, address: {addr}")
         print("Connecting to Bittle...")
@@ -30,14 +30,14 @@ if __name__ == "__main__":
         if connected:
             print("Sending message: 'khi'...")
             btManager.sendMsg("khi")
-            received = btManager.recvMsg(3)
+            received = btManager.recvMsg()
             decoded_msg = received.decode("utf-8")
             decoded_msg = decoded_msg.replace('\r\n', '')
             print(f"Received message: {decoded_msg}, expected: k")
             time.sleep(6)
             print("Sending message: 'd'...")
             btManager.sendMsg("d")
-            received = btManager.recvMsg(3)
+            received = btManager.recvMsg()
             decoded_msg = received.decode("utf-8")
             decoded_msg = decoded_msg.replace('\r\n', '')
             print(f"Received message: {decoded_msg}, expected: d")
