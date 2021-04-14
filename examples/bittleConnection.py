@@ -50,7 +50,10 @@ def testBluetooth(bittle):
         print("Connection closed")
 
 if __name__ == "__main__":
-    connection = 1  # 1 -> Bluetooth, 2 -> WiFi, 3 -> Serial
+    connection = int(input("Select test (1 -> Bluetooth, 2 -> WiFi): "))
+    if connection != 1 or connection != 2:
+        print("Wrong value.")
+        return
     bittle = bittleManager.Bittle()
     print("Bittle instance created")
     if connection == 1:
