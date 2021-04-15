@@ -22,14 +22,14 @@ if __name__ == "__main__":
     ip = input("Enter Bittle IP address: ")  # Ask for Bittle IP address
     wifiManager.ip = ip
     print("Searching for Bittle connetion...")
-    if wifiManager.hasConnection():
+    if wifiManager.has_connection():
         print(f"Bittle found, REST API address: {wifiManager.http_address}")
         print("Sending message: 'khi'...")
-        response = wifiManager.sendMsg("khi")
+        response = wifiManager.send_msg("khi")
         print(f"Received message: {response}, expected: 200")
         time.sleep(6)
         print("Sending message: 'd'...")
-        response = wifiManager.sendMsg("d")
+        response = wifiManager.send_msg("d")
         print(f"Received message: {response}, expected: 200")
         time.sleep(5)
         print("Connection closed")

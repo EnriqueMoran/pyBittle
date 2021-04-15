@@ -29,21 +29,21 @@ if __name__ == "__main__":
         print(f"Connected: {connected}")
         if connected:
             print("Sending message: 'khi'...")
-            btManager.sendMsg("khi")
-            received = btManager.recvMsg()
+            btManager.send_msg("khi")
+            received = btManager.recv_msg()
             decoded_msg = received.decode("utf-8")
             decoded_msg = decoded_msg.replace('\r\n', '')
             print(f"Received message: {decoded_msg}, expected: k")
             time.sleep(6)
             print("Sending message: 'd'...")
-            btManager.sendMsg("d")
-            received = btManager.recvMsg()
+            btManager.send_msg("d")
+            received = btManager.recv_msg()
             decoded_msg = received.decode("utf-8")
             decoded_msg = decoded_msg.replace('\r\n', '')
             print(f"Received message: {decoded_msg}, expected: d")
             time.sleep(5)
             print("Closing connection...")
-            btManager.closeConnection()  # Close connection
+            btManager.close_connection()  # Close connection
             print("Connection closed")
     else:  # Bittle not found in paired and avaliable devices
         print("Bittle not found!")

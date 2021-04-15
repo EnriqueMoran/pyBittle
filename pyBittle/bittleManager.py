@@ -10,6 +10,7 @@ import uuid
 from enum import Enum
 
 from .bluetoothManager import *
+from .wifiManager import *
 
 __author__ = "EnriqueMoran"
 
@@ -98,22 +99,28 @@ class Bittle:
 
     Methods
     -------
-    connectBluetooth(get_first_bittle):
+    connect_bluetooth(get_first_bittle):
         Connects to Bittle through Bluetooth connection.
-    sendCommandBluetooth(command):
+    send_command_bluetooth(command):
         Sends a command to Bittle through Bluetooth connection.
-    sendMsgBluetooth(message):
+    send_msg_bluetooth(message):
         Sends a custom message to Bittle through Bluetooth connection.
-    receiveMsgBluetooth(buffer_size):
+    receive_msg_bluetooth(buffer_size):
         Returns received message from Bittle through Bluetooth connection.
-    disconnectBluetooth():
+    disconnect_bluetooth():
         Closes Bluetooth connection with Bittle.
+    has_wifi_connection():
+        Checks wether there is connection with REST API.
+    send_command_wifi(command):
+        Sends a command to Bittle through WiFi connection.
+    send_msg_wifi(message):
+        Sends a custom message to Bittle through WiFi connection.
     """
 
     def __init__(self):
         self._id = uuid.uuid4()  # Bittle's id
         self.bluetoothManager = BluetoothManager()
-        self.wifiManager = None
+        self.wifiManager = WifiManager()
         self.serialManager = None
         self.gait = Gait.WALK  # Current gait
 
@@ -123,9 +130,11 @@ class Bittle:
     def __str__(self):  # TODO: Complete
         return f"Bittle with id '{self._id}' Bluetooth name: " \
                 f"'{self.bluetoothManager.name} ' MAC address: " \
-                f"'{self.bluetoothManager.address}'"
+                f"'{self.bluetoothManager.address}' " \
+                f"IP address: '{self.wifiManager.ip}' " \
+                f"REST API address: '{self.wifiManager.http_address}'"
 
-    def connectBluetooth(self, get_first_bittle=True):
+    def connect_bluetooth(self, get_first_bittle=True):
         """Connects to Bittle.
 
         Parameters:
@@ -143,29 +152,29 @@ class Bittle:
             res = self.bluetoothManager.connect()
         return res
 
-    def sendCommandBluetooth(self, command):
+    def send_command_bluetooth(self, command):
         """Sends command to Bittle through Bluetooth connection.
 
         Parameters:
             command (Comand) : Command to send.
         """
         if isinstance(command, Command):
-            self.bluetoothManager.sendMsg(COMMANDS[command])
+            self.bluetoothManager.send_msg(COMMANDS[command])
         else:
             raise TypeError("Command type must be Command.")
 
-    def sendMsgBluetooth(self, message):
+    def send_msg_bluetooth(self, message):
         """Sends custom message to Bittle through Bluetooth connection.
 
         Parameters:
             message (str) : Message to send.
         """
         if isinstance(message, str):
-            self.bluetoothManager.sendMsg(message)
+            self.bluetoothManager.send_msg(message)
         else:
             raise TypeError("Message type must be str.")
 
-    def receiveMsgBluetooth(self, buffer_size=1024):
+    def receive_msg_bluetooth(self, buffer_size=1024):
         """Receives a message from Bittle through Bluetooth connection.
 
         Parameters:
@@ -174,9 +183,44 @@ class Bittle:
         Returns:
             data (bytes) : Received data.
         """
-        return self.bluetoothManager.recvMsg(buffer_size)
+        return self.bluetoothManager.recv_msg(buffer_size)
 
-    def disconnectBluetooth(self):
+    def disconnect_bluetooth(self):
         """Closes Bluetooth connection.
         """
-        self.bluetoothManager.closeConnection()
+        self.bluetoothManager.close_connection()
+
+    def has_wifi_connection(self):
+        """Returns True if there is connection with REST API, False otherwise.
+        """
+        return self.wifiManager.has_connection()
+
+    def send_command_wifi(self, command):
+        """Sends command to Bittle through WiFi connection.
+
+        Parameters:
+            command (Comand) : Command to send.
+
+        Returns:
+            res (int) : REST API response code, -1 if
+            there is no connection.
+        """
+        if isinstance(command, Command):
+            return self.wifiManager.send_msg(COMMANDS[command])
+        else:
+            raise TypeError("Command type must be Command.")
+
+    def send_msg_wifi(self, message):
+        """Sends custom message to Bittle through WiFi connection.
+
+        Parameters:
+            message (str) : Message to send.
+
+        Returns:
+            res (int) : REST API response code, -1 if
+            there is no connection.
+        """
+        if isinstance(message, str):
+            return self.wifiManager.send_msg(message)
+        else:
+            raise TypeError("Message type must be str.")

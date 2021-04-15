@@ -22,11 +22,11 @@ class WifiManager:
 
     Methods
     -------
-    getStatusCode():
+    get_status_code():
         Returns REST API actionpage request response code.
-    hasConnection():
+    has_connection():
         Returns True if there is connection to REST API, False otherwise.
-    sendMsg(msg):
+    send_msg(msg):
         Sends a message to Bittle.
     """
 
@@ -58,7 +58,7 @@ class WifiManager:
     def http_address(self):
         return self._http_address
 
-    def getStatusCode(self):
+    def get_status_code(self):
         """Returns Action Page request response.
 
         Returns:
@@ -74,7 +74,7 @@ class WifiManager:
             pass
         return res
 
-    def hasConnection(self):
+    def has_connection(self):
         """Returns True if Action Page request response is 200, False
         otherwise.
 
@@ -92,7 +92,7 @@ class WifiManager:
             pass
         return res
 
-    def sendMsg(self, msg):
+    def send_msg(self, msg):
         """Sends a message to Bittle. Returns request response (int).
 
         Parameters:

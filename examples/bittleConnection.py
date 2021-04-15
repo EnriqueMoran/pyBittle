@@ -22,44 +22,71 @@ greet = bittleManager.Command.GREETING  # khi command
 rest = bittleManager.Command.REST  # d command
 
 
-def testBluetooth(bittle):
+def test_bluetooth(bittle):
     """Connect to Bittle through Bluetooth and send 'khi' and 'd' commands.
 
     Parameters:
             bittle (bittleManager.Bittle) : Bittle instance.
     """
     print("Connecting to Bittle through Bluetooth...")
-    isConnected = bittle.connectBluetooth()
+    isConnected = bittle.connect_bluetooth()
     print(f"Connected: {isConnected}")
     if isConnected:
-        bittle.sendCommandBluetooth(greet)
-        received = bittle.receiveMsgBluetooth()
+        print("Sending command: 'GREETING'...")
+        bittle.send_command_bluetooth(greet)
+        received = bittle.receive_msg_bluetooth()
         decoded_msg = received.decode("utf-8")
         decoded_msg = decoded_msg.replace('\r\n', '')
         print(f"Received message: {decoded_msg}, expected: k")
         time.sleep(6)
-        print("Sending message: 'd'...")
-        bittle.sendCommandBluetooth(rest)
-        received = bittle.receiveMsgBluetooth()
+        print("Sending command: 'REST'...")
+        bittle.send_command_bluetooth(rest)
+        received = bittle.receive_msg_bluetooth()
         decoded_msg = received.decode("utf-8")
         decoded_msg = decoded_msg.replace('\r\n', '')
         print(f"Received message: {decoded_msg}, expected: d")
         time.sleep(5)
         print("Closing Bluetooth connection...")
-        bittle.disconnectBluetooth()
+        bittle.disconnect_bluetooth()
         print("Connection closed")
+    else:
+        print("Bittle not found")
+
+
+def test_wifi(bittle):
+    """Connect to Bittle through WiFi and send 'khi' and 'd' commands.
+
+    Parameters:
+            bittle (bittleManager.Bittle) : Bittle instance.
+    """
+    bittle.wifiManager.ip = input("Enter Bittle IP address: ")
+    print("Connecting to Bittle through WiFi...")
+    if bittle.has_wifi_connection():
+        print(f"Bittle found, REST API address: "
+              f"{bittle.wifiManager.http_address}")
+        print("Sending command: 'GREETING'...")
+        response = bittle.send_command_wifi(greet)
+        print(f"Received message: {response}, expected: 200")
+        time.sleep(6)
+        print("Sending command: 'REST'...")
+        response = bittle.send_command_wifi(rest)
+        print(f"Received message: {response}, expected: 200")
+        time.sleep(6)
+        print("Connection closed")
+    else:
+        print("Can't connect to Bittle")
 
 if __name__ == "__main__":
     connection = int(input("Select test (1 -> Bluetooth, 2 -> WiFi): "))
-    if connection != 1 or connection != 2:
+    if connection != 1 and connection != 2:
         print("Wrong value.")
-        return
-    bittle = bittleManager.Bittle()
-    print("Bittle instance created")
-    if connection == 1:
-        testBluetooth(bittle)
-    elif connection == 2:
-        pass
-    elif connection == 3:
-        pass
+    else:
+        bittle = bittleManager.Bittle()
+        print("Bittle instance created")
+        if connection == 1:
+            test_bluetooth(bittle)
+        elif connection == 2:
+            test_wifi(bittle)
+        elif connection == 3:
+            pass
     print("Bittle data:\n {!s}".format(bittle))

@@ -40,11 +40,11 @@ class BluetoothManager:
         Returns avaliable paired devices.
     connect():
         Connects to Bittle.
-    sendMsg(msg):
+    send_msg(msg):
         Sends a message to Bittle.
-    recvMsg(buffer_size=1024):
+    recv_msg(buffer_size=1024):
         Returns received message from Bittle.
-    closeConnection():
+    close_connection():
         Closes connection with Bittle.
     """
 
@@ -192,7 +192,7 @@ class BluetoothManager:
             self.socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         return res
 
-    def sendMsg(self, msg):
+    def send_msg(self, msg):
         """Sends a message to Bittle.
 
         Parameters:
@@ -203,7 +203,7 @@ class BluetoothManager:
         else:
             raise TypeError("Message must be non empty str.")
 
-    def recvMsg(self, buffer_size=1024):
+    def recv_msg(self, buffer_size=1024):
         """Receives a message from Bittle.
 
         Parameters:
@@ -222,7 +222,7 @@ class BluetoothManager:
             raise TypeError("Buffer size must be int, greater than zero.")
         return data
 
-    def closeConnection(self):
+    def close_connection(self):
         """Closes connection.
         """
         self.socket.close()
