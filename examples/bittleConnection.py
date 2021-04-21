@@ -1,8 +1,8 @@
-"""An example of creating a Bittle instance and communicate with it.
+"""An example of creating a Bittle instance and communicating with it.
 
 Three examples are provided, three of them consist in creating a Bittle
 instance and connect to it through Bluetooth, WiFi or Serial.
-If connection is sucessful, send 'khi' and 'd' commands to check whether
+If connection is successful, send 'khi' and 'd' commands to check whether
 Bittle receives and replies to them.
 """
 

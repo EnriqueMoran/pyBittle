@@ -9,21 +9,12 @@ import uuid
 
 from enum import Enum
 
-from .bluetoothManager import *
-from .wifiManager import *
+from pyBittle.bluetoothManager import *
+from pyBittle.wifiManager import *
 
 __author__ = "EnriqueMoran"
 
 __version__ = "v0.1"
-
-
-class Gait(Enum):
-    """Defines avaliable gaits.
-    """
-    WALK = 1
-    CRAWL = 2
-    TROT = 3
-    RUN = 4
 
 
 class Command(Enum):
@@ -54,33 +45,6 @@ class Command(Enum):
     ZERO = 23
 
 
-COMMANDS = {  # Command : message to Bittle
-    Command.REST: 'd',
-    Command.FORWARD: 'F',
-    Command.GYRO: 'g',
-    Command.LEFT: 'L',
-    Command.BALANCE: 'kbalance',
-    Command.RIGHT: 'R',
-    Command.SHUTDOWN: 'z',
-    Command.BACKWARD: 'B',
-    Command.CALIBRATION: 'c',
-    Command.STEP: 'kvt',
-    Command.CRAWL: 'kcr',
-    Command.WALK: 'kwk',
-    Command.TROT: 'ktr',
-    Command.LOOKUP: 'klu',
-    Command.BUTTUP: 'kbuttUp',
-    Command.RUN: 'krn',
-    Command.BOUND: 'kbd',
-    Command.GREETING: 'khi',
-    Command.PUSHUP: 'kpu',
-    Command.PEE: 'kpee',
-    Command.STRETCH: 'kstr',
-    Command.SIT: 'ksit',
-    Command.ZERO: 'kzero'
-}
-
-
 class Bittle:
     """High level class that represents your Bittle.
 
@@ -89,13 +53,13 @@ class Bittle:
     id : uuid.UUID
         Bittle's unique id.
     bluetoothManager : BluetoothManager
-        Manager for sending message to Bittle through Bluetooth connection.
+        Manager for sending messages to Bittle through Bluetooth connection.
     wifiManager : WifiManager
-        Manager for sending message to Bittle through WiFi connection.
+        Manager for sending messages to Bittle through WiFi connection.
     serialManager : SerialManager
-        Manager for sending message to Bittle through Serial connection.
-    gait : Gait
-        Current gait.
+        Manager for sending messages to Bittle through Serial connection.
+    commands : {Command: str}
+        Avaliable commands that can be sent to Bittle.
 
     Methods
     -------
@@ -122,7 +86,31 @@ class Bittle:
         self.bluetoothManager = BluetoothManager()
         self.wifiManager = WifiManager()
         self.serialManager = None
-        self.gait = Gait.WALK  # Current gait
+        self._commands = {  # Command : message to Bittle
+            Command.REST: 'd',
+            Command.FORWARD: 'F',
+            Command.GYRO: 'g',
+            Command.LEFT: 'L',
+            Command.BALANCE: 'kbalance',
+            Command.RIGHT: 'R',
+            Command.SHUTDOWN: 'z',
+            Command.BACKWARD: 'B',
+            Command.CALIBRATION: 'c',
+            Command.STEP: 'kvt',
+            Command.CRAWL: 'kcr',
+            Command.WALK: 'kwk',
+            Command.TROT: 'ktr',
+            Command.LOOKUP: 'klu',
+            Command.BUTTUP: 'kbuttUp',
+            Command.RUN: 'krn',
+            Command.BOUND: 'kbd',
+            Command.GREETING: 'khi',
+            Command.PUSHUP: 'kpu',
+            Command.PEE: 'kpee',
+            Command.STRETCH: 'kstr',
+            Command.SIT: 'ksit',
+            Command.ZERO: 'kzero'
+        }
 
     def __eq__(self, other):
         return self._id == other._id
@@ -159,7 +147,7 @@ class Bittle:
             command (Comand) : Command to send.
         """
         if isinstance(command, Command):
-            self.bluetoothManager.send_msg(COMMANDS[command])
+            self.bluetoothManager.send_msg(self._commands[command])
         else:
             raise TypeError("Command type must be Command.")
 
@@ -206,7 +194,7 @@ class Bittle:
             there is no connection.
         """
         if isinstance(command, Command):
-            return self.wifiManager.send_msg(COMMANDS[command])
+            return self.wifiManager.send_msg(self._commands[command])
         else:
             raise TypeError("Command type must be Command.")
 

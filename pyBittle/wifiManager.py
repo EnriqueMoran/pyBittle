@@ -102,7 +102,7 @@ class WifiManager:
             status_code (int) : Request response code, -1 if there is no
             connection with REST API.
         """
-        res = .1
+        res = -1
         if isinstance(msg, str) and msg:
             query = {'name': msg}
             http_address = self.http_address + "action"
