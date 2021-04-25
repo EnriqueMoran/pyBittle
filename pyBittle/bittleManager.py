@@ -45,6 +45,26 @@ class Command(Enum):
     ZERO = 23
 
 
+class Gait(str, Enum):
+    """Defines avaliable gaits.
+    """
+    WALK = 'kwk'
+    CRAWL = 'kcr'
+    TROT = 'ktr'
+    RUN = 'krn'
+
+
+class Direction(str, Enum):
+    """Defines avaliable movement directions.
+    """
+    FORWARD = 'F'
+    FORWARDLEFT = 'L'
+    FORWARDRIGHT = 'R'
+    BACKWARD = 'B'
+    BACKWARDLEFT = 'BL'
+    BACKWARDRIGHT = 'BR'
+
+
 class Bittle:
     """High level class that represents your Bittle.
 
@@ -58,6 +78,8 @@ class Bittle:
         Manager for sending messages to Bittle through WiFi connection.
     serialManager : SerialManager
         Manager for sending messages to Bittle through Serial connection.
+    gait : Gait
+        Current gait.
     commands : {Command: str}
         Avaliable commands that can be sent to Bittle.
 
@@ -79,6 +101,10 @@ class Bittle:
         Sends a command to Bittle through WiFi connection.
     send_msg_wifi(message):
         Sends a custom message to Bittle through WiFi connection.
+    send_movement_bluetooth(direction):
+        Sends a movement command to Bittle through Bluetooth connection.
+    send_movement_wifi(direction):
+        Sends a movement command to Bittle through WiFi connection.
     """
 
     def __init__(self):
@@ -86,6 +112,7 @@ class Bittle:
         self.bluetoothManager = BluetoothManager()
         self.wifiManager = WifiManager()
         self.serialManager = None
+        self._gait = Gait.WALK  # Current gait
         self._commands = {  # Command : message to Bittle
             Command.REST: 'd',
             Command.FORWARD: 'F',
@@ -121,6 +148,17 @@ class Bittle:
                 f"'{self.bluetoothManager.address}' " \
                 f"IP address: '{self.wifiManager.ip}' " \
                 f"REST API address: '{self.wifiManager.http_address}'"
+
+    @property
+    def gait(self):
+        return self._gait
+
+    @gait.setter
+    def gait(self, new_gait):
+        if isinstance(new_gait, Gait):
+            self._gait = new_gait
+        else:
+            raise TypeError("New gait must be Gait type.")
 
     def connect_bluetooth(self, get_first_bittle=True):
         """Connects to Bittle.
@@ -212,3 +250,33 @@ class Bittle:
             return self.wifiManager.send_msg(message)
         else:
             raise TypeError("Message type must be str.")
+
+    def send_movement_bluetooth(self, direction):
+        """Sends movement commands with current gait through Bluetooth
+        connection.
+        """
+        if isinstance(direction, Direction):
+            command = ''
+            if direction in [Direction.BACKWARD, Direction.BACKWARDLEFT,
+                             Direction.BACKWARDRIGHT]
+                command = 'kbk' + direction[1:]
+            else:
+                command = self.gait.value + direction.value
+            self.send_msg_bluetooth(command)
+        else:
+            raise TypeError("Direction must be Direction type.")
+
+    def send_movement_wifi(self, direction):
+        """Sends movement commands with current gait through WiFi
+        connection.
+        """
+        if isinstance(direction, Direction):
+            command = ''
+            if direction in [Direction.BACKWARD, Direction.BACKWARDLEFT,
+                             Direction.BACKWARDRIGHT]
+                command = 'kbk' + direction[1:]
+            else:
+                command = self.gait.value + direction.value
+            self.send_msg_wifi(command)
+        else:
+            raise TypeError("Direction must be Direction type.")

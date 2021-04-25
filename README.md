@@ -1,14 +1,14 @@
 # pyBittle
 
 pyBittle is an Open Source Python library for easily connecting to Bittle and controlling it.
-This library provides a set of methods to communicating with Bittle through Bluetooth abd WiFi, allowing to control it remotely.
+This library provides a set of methods to communicating with Bittle through Bluetooth and WiFi, allowing to control it remotely.
 
-In-depth documentation and usage examples: [pyBittle](https://enriquemoran95.gitbook.io/pybittle/)
+In-depth documentation and usage examples: [pyBittle](https://enriquemoran95.gitbook.io/pybittle/).
 
 
 ## Usage example
 
-Connecting to Bittle and sending commands is as easy as follows:
+Connecting to Bittle and sending commands is as easy as shown below:
 
 ```python
 bittle = pyBittle.Bittle()  # This is your Bittle
@@ -18,6 +18,7 @@ is_connected = bittle.connect_bluetooth()  # Returns True if Bittle is connected
 if is_connected:
     greet_command = pyBittle.Command.GREETING  # This is 'khi' message to be sent
     bittle.send_command_bluetooth(greet_command)  # Send 'khi' message through Bluetooth
+    bittle.disconnect_bluetooth()
 ```
 
 ```python
