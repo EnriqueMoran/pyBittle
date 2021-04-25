@@ -14,7 +14,7 @@ from pyBittle.wifiManager import *
 
 __author__ = "EnriqueMoran"
 
-__version__ = "v0.1"
+__version__ = "v1.0"
 
 
 class Command(Enum):
@@ -258,7 +258,7 @@ class Bittle:
         if isinstance(direction, Direction):
             command = ''
             if direction in [Direction.BACKWARD, Direction.BACKWARDLEFT,
-                             Direction.BACKWARDRIGHT]
+                             Direction.BACKWARDRIGHT]:
                 command = 'kbk' + direction[1:]
             else:
                 command = self.gait.value + direction.value
@@ -273,7 +273,7 @@ class Bittle:
         if isinstance(direction, Direction):
             command = ''
             if direction in [Direction.BACKWARD, Direction.BACKWARDLEFT,
-                             Direction.BACKWARDRIGHT]
+                             Direction.BACKWARDRIGHT]:
                 command = 'kbk' + direction[1:]
             else:
                 command = self.gait.value + direction.value
