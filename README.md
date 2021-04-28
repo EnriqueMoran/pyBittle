@@ -35,7 +35,7 @@ if has_connection:
 
 ## Installation
 
-pyBittle has the following dependencies: [PyBluez](https://github.com/pybluez/pybluez) and [pySerial](https://github.com/pyserial/pyserial), install them using the following commands:
+pyBittle has the following dependencies: [PyBluez](https://github.com/pybluez/pybluez) and [pySerial](https://github.com/pyserial/pyserial), install them manually using the following commands:
 
 ```
 sudo apt-get install libbluetooth-dev
@@ -46,4 +46,9 @@ pip install pyserial
 
 git clone https://github.com/EnriqueMoran/pyBittle.git
 pip install .
+```
+
+Or install automatically using the following commands:
+```
+pip install pyBittle
 ```

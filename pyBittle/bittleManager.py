@@ -14,8 +14,6 @@ from pyBittle.wifiManager import *
 
 __author__ = "EnriqueMoran"
 
-__version__ = "1.0.0"
-
 
 class Command(Enum):
     """Defines avaliable commands.
