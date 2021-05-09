@@ -23,7 +23,7 @@ if __name__ == "__main__":
     print(f"Searching for Bittle communication port...")
     port_found = srManager.discover_port()
     if not port_found:
-        self.port = 'COM7'  # Set port manually
+        srManager.port = 'COM7'  # Set port manually
     srManager.initialize()
     print("Connecting to Bittle...")
     connected = srManager.connect()  # Connect to Bittle
