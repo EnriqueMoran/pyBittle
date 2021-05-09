@@ -30,8 +30,8 @@ class WifiManager:
         Sends a message to Bittle.
     """
 
-    def __init__(self, ip=""):
-        self._ip = ip
+    def __init__(self):
+        self._ip = ""
         self._http_address = f"http://{ip}/"
 
     def __repr__(self):

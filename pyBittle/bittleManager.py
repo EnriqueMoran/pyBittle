@@ -166,7 +166,7 @@ class Bittle:
                 f"'{self.bluetoothManager.name} ' MAC address: " \
                 f"'{self.bluetoothManager.address}' " \
                 f"IP address: '{self.wifiManager.ip}' " \
-                f"REST API address: '{self.wifiManager.http_address}'"
+                f"Serial port: {self.serialManager.port}"
 
     @property
     def gait(self):

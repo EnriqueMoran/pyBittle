@@ -48,12 +48,12 @@ class BluetoothManager:
         Closes connection with Bittle.
     """
 
-    def __init__(self, name="", port=1, discovery_timeout=8, recv_timeout=10):
-        self._name = name
+    def __init__(self):
+        self._name = ""
         self._address = ""
-        self._port = port
-        self._discovery_timeout = discovery_timeout
-        self._recv_timeout = recv_timeout
+        self._port = 1
+        self._discovery_timeout = 8
+        self._recv_timeout = 10
         self.socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 
     def __del__(self):

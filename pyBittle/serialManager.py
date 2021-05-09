@@ -44,10 +44,10 @@ class SerialManager:
         Returns received message from Bittle (byte).
     """
 
-    def __init__(self, port="COM1", baudrate=115200, timeout=5):
-        self._port = port
-        self._baudrate = baudrate
-        self._timeout = timeout
+    def __init__(self):
+        self._port = "COM1"
+        self._baudrate = 115200
+        self._timeout = 5
         self._parity = serial.PARITY_NONE
         self.serial = serial.Serial()
 
