@@ -134,7 +134,11 @@ class Bittle:
             Command.PEE: 'kpee',
             Command.STRETCH: 'kstr',
             Command.SIT: 'ksit',
-            Command.ZERO: 'kzero'
+            Command.ZERO: 'kzero',
+            Command.BUNNY: 'kbdF',
+            Command.BACKFLIP: 'kbf',
+            Command.SLEEP: 'kstp',
+            Command.CHECKAROUND: 'kck'
         }
 
     def __eq__(self, other):

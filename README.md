@@ -48,7 +48,7 @@ git clone https://github.com/EnriqueMoran/pyBittle.git
 pip install .
 ```
 
-Or install automatically using the following commands:
+Or install automatically using the following command:
 ```
 pip install pyBittle
 ```
