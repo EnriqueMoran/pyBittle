@@ -2,7 +2,7 @@
 
 Create a BluetoothManager instance and search for Bittle MAC address.
 If Bittle is found among avaliable paired bluetooth devices, connect to it.
-If connection is sucessful, send 'khi' and 'd' commands to check whether
+If connection is successful, send 'khi' and 'd' commands to check whether
 Bittle receives and replies to them.
 """
 
