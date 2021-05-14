@@ -28,11 +28,11 @@ class SerialManager:
     Methods
     -------
     initialize():
-        Set serial communication parameters. If any of the parameters is
-        updated after initialization, this method must be called to process
-        it.
+        Sets serial communication parameters. If any of the parameters is
+        updated after initialization, this method must be called to apply
+        the changes.
     discover_port():
-        Search among avaliable communication ports the one associated
+        Searches among avaliable communication ports the one associated
         to CH340 USB driver, which is used by Bittle.
     connect():
         Starts serial communication. Return wether connection was achieved.
@@ -139,7 +139,7 @@ class SerialManager:
         """Connects to Bittle and wait until full response is given
         (response will contain "Finished! at the end").
         Returns:
-            res (bool) : True if connected succesfully, False otherwise.
+            res (bool) : True if connected successfully, False otherwise.
         """
         res = False
         self.serial.open()
