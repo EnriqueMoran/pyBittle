@@ -4,7 +4,7 @@ import sys
 
 from setuptools import find_packages, setup
 
-VERSION = "1.1.2"
+VERSION = "1.1.3"
 DIR = pathlib.Path(__file__).parent
 README = (DIR / "README.md").read_text()
 

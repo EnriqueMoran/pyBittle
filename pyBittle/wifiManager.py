@@ -32,7 +32,7 @@ class WifiManager:
 
     def __init__(self):
         self._ip = ""
-        self._http_address = f"http://{ip}/"
+        self._http_address = f""
 
     def __repr__(self):
         return f"WifiManager - ip: {self.ip}, " \
