@@ -144,7 +144,7 @@ class BluetoothManager:
             raise TypeError("Value type must be bool.")
 
         search_name = self.name if not get_first_bittle and self.name else \
-            "BittleSPP"
+            "Petoi"
         paired_devices = self.get_paired_devices()
 
         for address, name in list(paired_devices):
